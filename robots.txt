@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /jog/
+Disallow: /raw_leiratok/
+Disallow: /leiratok/
+Disallow: /vh_videok/
+Disallow: /Csapat/
+Disallow: /*.txt$
+Disallow: /*.docx$
+
+Sitemap: https://vedelmihorizont.hu/sitemap.xml

@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Adatkezelési tájékoztató - Védelmi Horizont</title>
+<meta name="description" content="A Védelmi Horizont adatkezelési tájékoztatója: milyen személyes adatot, milyen célból és jogalappal kezelünk, és milyen jogok illetik meg Önt." />
+<link rel="icon" type="image/svg+xml" href="kepek/logo_svg.svg" />
+<link rel="apple-touch-icon" href="kepek/logo1440x1440.png" />
+<meta name="theme-color" content="#0b0f16" />
+<link rel="canonical" href="https://vedelmihorizont.hu/adatvedelem.html" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://vedelmihorizont.hu/adatvedelem.html" />
+<meta property="og:site_name" content="Védelmi Horizont" />
+<meta property="og:locale" content="hu_HU" />
+<meta property="og:title" content="Adatkezelési tájékoztató - Védelmi Horizont" />
+<meta property="og:description" content="Milyen személyes adatot, milyen célból és jogalappal kezelünk, és milyen jogok illetik meg Önt." />
+<meta property="og:image" content="https://vedelmihorizont.hu/kepek/logo1440x1440.png" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Adatkezelési tájékoztató - Védelmi Horizont" />
+<meta name="twitter:description" content="Milyen személyes adatot, milyen célból és jogalappal kezelünk, és milyen jogok illetik meg Önt." />
+<meta name="twitter:image" content="https://vedelmihorizont.hu/kepek/logo1440x1440.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=JetBrains+Mono:wght@400;500&display=swap" media="print" onload="this.media='all'" />
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=JetBrains+Mono:wght@400;500&display=swap" /></noscript>
+<style>
+:root{
+  box-sizing:border-box;
+  color-scheme:light;
+  --bg:#f6f7f9;
+  --surface:#ffffff;
+  --surface-2:#eef1f5;
+  --text:#11161f;
+  --muted:#5b6472;
+  --line:#dde2ea;
+  --accent:#2f5d85;
+  --accent-text:#2f5d85;
+  --serif:'Merriweather',Georgia,'Times New Roman',serif;
+  --sans:'Raleway',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+  --maxw:800px;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0b0f16; --surface:#11161f; --surface-2:#161d2a; --text:#e7edf5; --muted:#8c99ab; --line:#232c3c; --accent:#5b93c9; --accent-text:#5b93c9;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0b0f16; --surface:#11161f; --surface-2:#161d2a; --text:#e7edf5; --muted:#8c99ab; --line:#232c3c; --accent:#5b93c9; --accent-text:#5b93c9;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body,.site-header,.theme-toggle,a,.acc-item{transition:background-color .4s ease,color .4s ease,border-color .4s ease,fill .4s ease}
+@media (prefers-reduced-motion:reduce){body,.site-header,.theme-toggle,a,.acc-item{transition:none}}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:var(--accent-text);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+img{max-width:100%;display:block}
+p{margin:0 0 1rem}
+
+.site-header{background:var(--surface);border-bottom:1px solid var(--line)}
+.header-inner{max-width:var(--maxw);margin:0 auto;padding:22px 20px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.logo-mark{position:relative;display:inline-block;height:56px;width:56px;flex-shrink:0}
+.logo-mark img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.logo-mark .logo-dark{display:none}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .logo-mark .logo-light{display:none}
+  :root:not([data-theme="light"]) .logo-mark .logo-dark{display:block}
+}
+:root[data-theme="dark"] .logo-mark .logo-light{display:none}
+:root[data-theme="dark"] .logo-mark .logo-dark{display:block}
+:root[data-theme="light"] .logo-mark .logo-light{display:block}
+:root[data-theme="light"] .logo-mark .logo-dark{display:none}
+.brand-link{display:flex;align-items:center;gap:18px;text-decoration:none;color:inherit;border-radius:4px}
+.brand-link:hover .logo-mark{opacity:.85}
+.header-text .brand-title{font-family:var(--serif);font-weight:700;font-size:1.15rem;margin:0 0 2px;letter-spacing:-.01em}
+.header-text p{margin:0;color:var(--muted);font-size:.8rem}
+.header-actions{margin-left:auto;display:flex;align-items:center;gap:10px;flex-shrink:0}
+.lang{display:flex;width:118px;height:36px;box-sizing:border-box;font-family:var(--mono);border:1px solid var(--line);overflow:hidden;flex-shrink:0}
+.lang button{flex:1;display:flex;align-items:center;justify-content:center;background:none;border:0;color:var(--muted);padding:0 11px;cursor:pointer;font-family:inherit;font-size:.78rem;font-weight:700;text-align:center;box-sizing:border-box}
+.lang button.on{background:var(--text);color:var(--bg)}
+.lang button:hover:not(.on){color:var(--text)}
+.theme-toggle{width:118px;height:36px;display:inline-flex;align-items:center;justify-content:flex-start;gap:8px;
+  font:inherit;font-size:.8rem;font-weight:600;color:var(--text);background:transparent;border:1px solid var(--line);
+  padding:0 12px;cursor:pointer;flex-shrink:0;box-sizing:border-box}
+.theme-toggle:hover{border-color:var(--text)}
+.theme-toggle .label{flex:1 1 auto;text-align:left}
+.theme-icon{position:relative;display:inline-block;width:16px;height:16px;flex-shrink:0}
+.theme-icon .icon-sun,.theme-icon .icon-moon{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1rem;line-height:1;transition:opacity .4s ease,transform .4s ease}
+.theme-icon .icon-sun{opacity:1;transform:rotate(0deg) scale(1)}
+.theme-icon .icon-moon{opacity:0;transform:scale(.5)}
+.theme-icon.is-dark .icon-sun{opacity:0;transform:rotate(90deg) scale(.5)}
+.theme-icon.is-dark .icon-moon{opacity:1;transform:scale(1)}
+
+main{max-width:var(--maxw);margin:0 auto;padding:36px 20px 80px}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-family:var(--sans);font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);text-decoration:none;margin-bottom:24px}
+.back-link:hover{color:var(--accent-text)}
+.article-title{font-family:var(--serif);font-weight:700;font-size:clamp(1.6rem,4vw,2.3rem);line-height:1.22;margin:0 0 10px}
+.article-sub{color:var(--muted);font-size:.92rem;margin:0 0 6px}
+.download-row{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 0}
+.btn-pill{display:inline-flex;align-items:center;gap:9px;font-family:var(--sans);font-weight:700;text-transform:uppercase;
+  letter-spacing:.07em;font-size:.76rem;padding:10px 18px;border:1px solid var(--line);color:var(--text);text-decoration:none;
+  background:transparent;cursor:pointer}
+.btn-pill:hover{border-color:var(--text)}
+.btn-pill .ic{width:15px;height:15px;fill:currentColor;flex:none}
+
+.legal-section{margin:44px 0 0;padding-top:30px;border-top:1px solid var(--line)}
+.legal-section:first-of-type{margin-top:36px}
+.legal-section h2{font-family:var(--serif);font-weight:700;font-size:1.28rem;margin:0 0 14px}
+.legal-section h3{font-family:var(--serif);font-weight:700;font-size:1.02rem;font-style:italic;margin:26px 0 10px}
+.legal-section h3:first-of-type{margin-top:4px}
+.legal-section p{font-size:.94rem;color:var(--text)}
+.legal-section ul{margin:0 0 1rem;padding-left:1.2rem;font-size:.94rem}
+.legal-section li{margin-bottom:.5rem}
+
+.kv{font-family:var(--mono);font-size:.85rem;margin:14px 0 8px}
+.kv div{display:flex;gap:14px;padding:8px 0;border-bottom:1px solid var(--line)}
+.kv .k{color:var(--muted);width:150px;flex:none;text-transform:uppercase;letter-spacing:.04em;font-size:.7rem;padding-top:2px}
+
+.dl-row{margin:0 0 16px}
+.dl-row dt{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--accent-text);margin:0 0 4px}
+.dl-row dd{margin:0;font-size:.9rem;color:var(--text)}
+
+.legal-table{width:100%;border-collapse:collapse;margin:0 0 8px;font-size:.88rem}
+.legal-table th,.legal-table td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+.legal-table th{font-family:var(--mono);font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);background:var(--surface-2)}
+.legal-table td a{word-break:break-word}
+
+.note{font-size:.86rem;color:var(--muted);border-left:2px solid var(--accent);padding:4px 0 4px 14px;margin:16px 0}
+
+.acc-item{background:var(--surface);border:1px solid var(--line);margin-bottom:10px;overflow:hidden}
+.acc-item summary{list-style:none;cursor:pointer;padding:14px 18px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.acc-item summary::-webkit-details-marker{display:none}
+.acc-head{font-family:var(--serif);font-size:.98rem;font-weight:700;margin:0}
+.acc-chevron{font-size:.9rem;color:var(--muted);transition:transform .15s ease;flex-shrink:0;margin-top:2px}
+.acc-item[open] .acc-chevron{transform:rotate(90deg)}
+.acc-body{padding:0 18px 16px;border-top:1px solid var(--line)}
+.acc-body-inner{padding-top:12px;font-size:.88rem;color:var(--muted)}
+
+footer{border-top:1px solid var(--line);background:var(--surface);padding:34px 20px 26px;text-align:center;margin-top:30px}
+footer .social{display:flex;gap:16px;justify-content:center;margin:0 0 14px;padding:0;list-style:none}
+footer .social a{color:var(--muted)}
+footer .social a:hover{color:var(--accent-text)}
+footer .social .ic{width:19px;height:19px;fill:currentColor;display:block}
+footer p.copy{font-family:var(--mono);font-size:.74rem;color:var(--muted);margin:0 0 6px}
+footer p.legal{font-family:var(--mono);font-size:.72rem;color:var(--muted);margin:0}
+footer p.legal a{color:var(--muted)}
+footer p.legal a:hover{color:var(--accent-text)}
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Adatkezelési tájékoztató - Védelmi Horizont",
+  "url": "https://vedelmihorizont.hu/adatvedelem.html",
+  "description": "A Védelmi Horizont adatkezelési tájékoztatója: milyen személyes adatot, milyen célból és jogalappal kezelünk, és milyen jogok illetik meg Önt.",
+  "inLanguage": "hu",
+  "isPartOf": { "@type": "WebSite", "name": "Védelmi Horizont", "url": "https://vedelmihorizont.hu/" }
+}
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-youtube" viewBox="0 0 24 24"><path d="M23 7.5a3 3 0 0 0-2.1-2.1C19 4.9 12 4.9 12 4.9s-7 0-8.9.5A3 3 0 0 0 1 7.5 31 31 0 0 0 .5 12 31 31 0 0 0 1 16.5a3 3 0 0 0 2.1 2.1C5 19 12 19 12 19s7 0 8.9-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 23.5 12 31 31 0 0 0 23 7.5zM9.75 15.5v-7l6 3.5z"/></symbol>
+  <symbol id="i-spotify" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm4.6 14.45a.62.62 0 0 1-.86.21c-2.35-1.44-5.3-1.76-8.79-.97a.62.62 0 1 1-.28-1.2c3.82-.88 7.09-.5 9.73 1.1a.62.62 0 0 1 .2.86zm1.23-2.74a.78.78 0 0 1-1.07.26c-2.69-1.66-6.79-2.14-9.97-1.18a.78.78 0 0 1-.45-1.5c3.63-1.1 8.15-.56 11.24 1.33a.78.78 0 0 1 .25 1.09zm.1-2.85C14.28 8.99 8.96 8.82 5.88 9.75a.94.94 0 1 1-.54-1.8c3.53-1.06 9.4-.86 13.11 1.35a.94.94 0 0 1-.95 1.61z"/></symbol>
+  <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.6" cy="6.4" r="1.4"/></symbol>
+  <symbol id="i-facebook" viewBox="0 0 24 24"><path d="M22 12A10 10 0 1 0 10.4 21.9V14.9H7.9V12h2.5V9.85c0-2.47 1.47-3.84 3.72-3.84 1.08 0 2.2.19 2.2.19v2.42h-1.24c-1.22 0-1.6.76-1.6 1.54V12h2.72l-.44 2.9h-2.28v7A10 10 0 0 0 22 12z"/></symbol>
+  <symbol id="i-tiktok" viewBox="0 0 24 24"><path d="M16.6 5.82c-.9-.6-1.5-1.5-1.71-2.63a4.2 4.2 0 0 1-.07-.69h-2.79v11.44c-.05 1.28-1.1 2.31-2.39 2.31a2.4 2.4 0 0 1-2.4-2.4 2.4 2.4 0 0 1 3.15-2.28V8.72a5.16 5.16 0 0 0-5.94 5.11 5.16 5.16 0 0 0 10.32 0V8.53a6.83 6.83 0 0 0 4.01 1.29V7.03a4.06 4.06 0 0 1-2.19-1.21z"/></symbol>
+</svg>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand-link" href="index.html" aria-label="Védelmi Horizont - kezdőlap">
+      <span class="logo-mark" aria-hidden="true">
+        <img class="logo-light" src="kepek/logo_white.png" alt="" />
+        <img class="logo-dark" src="kepek/logo_black.png" alt="" />
+      </span>
+      <span class="header-text">
+        <p class="brand-title">Védelmi Horizont</p>
+        <p data-hu="Jogi tudnivalók" data-en="Legal">Jogi tudnivalók</p>
+      </span>
+    </a>
+    <div class="header-actions">
+      <div class="lang" role="group" aria-label="Nyelvváltó / Language switcher">
+        <button type="button" data-lang="hu" class="on">HU</button>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Téma váltása">
+        <span class="theme-icon" aria-hidden="true">
+          <span class="icon-sun">☀</span>
+          <span class="icon-moon">☾</span>
+        </span>
+        <span class="label">Világos</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <a class="back-link" href="index.html">&#8592; <span data-hu="Kezdőlap" data-en="Home">Kezdőlap</span></a>
+
+  <h1 class="article-title">Adatkezelési tájékoztató</h1>
+  <p class="article-sub" data-hu="a Védelmi Horizont honlap és a kapcsolatfelvétel látogatói, olvasói és hallgatói részére" data-en="for visitors, readers and listeners of the Védelmi Horizont website and its contact channels">a Védelmi Horizont honlap és a kapcsolatfelvétel látogatói, olvasói és hallgatói részére</p>
+  <p class="article-sub" data-hu="Jelen tájékoztató csak magyar nyelven érhető el, mivel az Üzemeltető és a Honlap elsődleges célközönsége magyar nyelvű." data-en="This notice is available in Hungarian only, as the Operator and the Website primarily serve a Hungarian-speaking audience.">Jelen tájékoztató csak magyar nyelven érhető el, mivel az Üzemeltető és a Honlap elsődleges célközönsége magyar nyelvű.</p>
+
+  <div class="download-row">
+    <a class="btn-pill" href="jog/Adatkezelesi_tajekoztato_Vedelmi_Horizont.docx">
+      <svg class="ic" viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 19h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span data-hu="Letöltés Word (.docx) formátumban" data-en="Download as Word (.docx)">Letöltés Word (.docx) formátumban</span>
+    </a>
+  </div>
+
+  <p style="margin-top:28px">A személyes adatok védelme fontos számunkra. Jelen Adatkezelési tájékoztatóban (a továbbiakban: Tájékoztató) ismertetjük, hogy a vedelmihorizont.hu honlap (a továbbiakban: Honlap) üzemeltetése és a vele való kapcsolatfelvétel során Önről milyen személyes adatot, milyen célból és milyen jogalappal kezelünk, és milyen jogok illetik meg Önt ezzel kapcsolatban.</p>
+
+  <section class="legal-section">
+    <h2>1. Az Adatkezelő (Üzemeltető) adatai</h2>
+    <div class="kv">
+      <div><span class="k">Adatkezelő</span><span>Zsebeházy Bálint</span></div>
+      <div><span class="k">Székhely / levelezési cím</span><span>1106 Budapest, Gyakorló u. 36.</span></div>
+      <div><span class="k">Honlap</span><span>vedelmihorizont.hu</span></div>
+      <div><span class="k">E-mail</span><span><a href="mailto:vedelmi.horizont@gmail.com">vedelmi.horizont@gmail.com</a></span></div>
+    </div>
+    <p style="margin-top:16px">Az Adatkezelő magánszemélyként, nem bejegyzett gazdasági társaság vagy egyéni vállalkozás formájában üzemelteti a Honlapot, ezért nyilvántartási szám és adószám jelenleg nem releváns. Amennyiben a tevékenység a jövőben gazdasági társasági vagy egyéni vállalkozói formát ölt (pl. hirdetési bevétel, támogatói tagság bevezetése esetén), ezt az adatot és a jelen Tájékoztatót is frissíteni szükséges.</p>
+  </section>
+
+  <section class="legal-section">
+    <h2>2. Az adatkezelés alapjául szolgáló jogszabályok</h2>
+    <ul>
+      <li>az Európai Parlament és a Tanács (EU) 2016/679 rendelete (2016. április 27.) a természetes személyeknek a személyes adatok kezelése tekintetében történő védelméről és az ilyen adatok szabad áramlásáról (GDPR)</li>
+      <li>2011. évi CXII. törvény az információs önrendelkezési jogról és az információszabadságról (Infotv.)</li>
+      <li>2013. évi V. törvény a Polgári Törvénykönyvről (Ptk.)</li>
+      <li>2001. évi CVIII. törvény az elektronikus kereskedelmi szolgáltatások, valamint az információs társadalommal összefüggő szolgáltatások egyes kérdéseiről (Eker. tv.)</li>
+      <li>az elektronikus hírközlésről szóló 2003. évi C. törvény 155. §-a (a cookie-k, sütik elhelyezésének szabályai)</li>
+    </ul>
+  </section>
+
+  <section class="legal-section">
+    <h2>3. Fogalmak</h2>
+    <div class="dl-row"><dt>Személyes adat</dt><dd>azonosított vagy azonosítható természetes személyre („Érintett”) vonatkozó bármely információ; azonosítható az a természetes személy, aki közvetlen vagy közvetett módon, különösen valamely azonosító – például név, szám, online azonosító – alapján azonosítható.</dd></div>
+    <div class="dl-row"><dt>Adatkezelés</dt><dd>a személyes adatokon végzett bármely művelet, így különösen a gyűjtés, rögzítés, tárolás, felhasználás, továbbítás, törlés.</dd></div>
+    <div class="dl-row"><dt>Adatkezelő</dt><dd>az a természetes vagy jogi személy, amely a személyes adatok kezelésének céljait és eszközeit meghatározza. Jelen Tájékoztató vonatkozásában ez a Honlap Üzemeltetője.</dd></div>
+    <div class="dl-row"><dt>Adatfeldolgozó</dt><dd>az a természetes vagy jogi személy, aki az Adatkezelő nevében személyes adatokat kezel (pl. a kapcsolati űrlapot kiszolgáló technikai szolgáltató).</dd></div>
+    <div class="dl-row"><dt>Érintett</dt><dd>bármely meghatározott, személyes adat alapján azonosított vagy közvetlenül/közvetve azonosítható természetes személy.</dd></div>
+  </section>
+
+  <section class="legal-section">
+    <h2>4. Alapelvek</h2>
+    <p>Az adatkezelés során az Üzemeltető a következő alapelveket veszi figyelembe:</p>
+    <ul>
+      <li>jogszerűség, tisztességes eljárás és átláthatóság</li>
+      <li>célhoz kötöttség – az adatgyűjtés csak meghatározott, egyértelmű és jogszerű célból történik</li>
+      <li>adattakarékosság – csak a célhoz szükséges mértékű adatot kezeljük</li>
+      <li>pontosság és naprakészség</li>
+      <li>korlátozott tárolhatóság – az adatokat csak a szükséges ideig tároljuk</li>
+      <li>integritás és bizalmas jelleg – megfelelő technikai és szervezési intézkedésekkel védjük az adatokat</li>
+      <li>elszámoltathatóság – az Üzemeltető felelős a fentieknek való megfelelésért, és képes azt igazolni</li>
+    </ul>
+  </section>
+
+  <section class="legal-section">
+    <h2>5. Adatkezelési tevékenységek</h2>
+
+    <h3>5.1 Kapcsolatfelvétel a Honlap kapcsolati űrlapján keresztül</h3>
+    <div class="dl-row"><dt>Adatkezelés célja</dt><dd>Az Ön megkeresésének fogadása és megválaszolása (kapcsolat, együttműködés, sajtó, visszajelzés).</dd></div>
+    <div class="dl-row"><dt>Adatkezelés jogalapja</dt><dd>GDPR 6. cikk (1) bekezdés a) pont: az Ön hozzájárulása, amelyet az űrlap kitöltésével és elküldésével ad meg.</dd></div>
+    <div class="dl-row"><dt>Az Érintettek kategóriái</dt><dd>A Honlapot látogató, kapcsolatfelvételt kezdeményező természetes személyek (érdeklődők, hallgatók, olvasók, sajtó, leendő partnerek).</dd></div>
+    <div class="dl-row"><dt>Személyes adatok köre</dt><dd>Név, e-mail cím, valamint az üzenet szövegében Ön által önkéntesen megadott bármely egyéb adat.</dd></div>
+    <div class="dl-row"><dt>Adatmegőrzési idő</dt><dd>A megkeresés megválaszolását, illetve az ügy lezárását követő 1 év, ezt követően az adatok törlésre kerülnek.</dd></div>
+    <div class="dl-row"><dt>Adattovábbítás, címzettek</dt><dd>Az űrlapot a Formspree, Inc. (székhely: Amerikai Egyesült Államok) mint technikai adatfeldolgozó kezeli és továbbítja az Üzemeltető e-mail postafiókjába.</dd></div>
+    <p class="note">Ez az Európai Gazdasági Térségen kívüli (USA-beli) adattovábbításnak minősül, amelyhez a GDPR 44–49. cikkei szerint megfelelő garancia szükséges – ennek pontos jogalapját (pl. a szolgáltató által alkalmazott általános szerződési feltételek / standard szerződéses klauzulák) a Formspree mindenkori adatvédelmi tájékoztatója alapján kell ellenőrizni: <a href="https://formspree.io/legal/privacy-policy/" target="_blank" rel="noopener">formspree.io/legal/privacy-policy</a></p>
+    <div class="dl-row"><dt>Adatok forrása</dt><dd>Az adatok forrása maga az Érintett.</dd></div>
+    <div class="dl-row"><dt>Adatszolgáltatás módja, következménye</dt><dd>Az adatok megadása önkéntes. Amennyiben Ön nem adja meg a kért adatokat, az Üzemeltető nem tudja felvenni Önnel a kapcsolatot az űrlapon keresztül.</dd></div>
+
+    <h3>5.2 Közvetlen e-mailes megkeresés</h3>
+    <div class="dl-row"><dt>Adatkezelés célja</dt><dd>Az Ön vedelmi.horizont@gmail.com címre küldött e-mailes megkeresésének fogadása és megválaszolása.</dd></div>
+    <div class="dl-row"><dt>Adatkezelés jogalapja</dt><dd>GDPR 6. cikk (1) bekezdés a) pont: az Ön hozzájárulása, amelyet az e-mail elküldésével ad meg.</dd></div>
+    <div class="dl-row"><dt>Az Érintettek kategóriái</dt><dd>Az Üzemeltetőnek e-mailt küldő természetes személyek.</dd></div>
+    <div class="dl-row"><dt>Személyes adatok köre</dt><dd>Név (vagy az e-mail címből kiderülő azonosító), e-mail cím, az üzenet tartalma és az ahhoz csatolt egyéb adatok.</dd></div>
+    <div class="dl-row"><dt>Adatmegőrzési idő</dt><dd>A levelezés lezárását követő 1 év, ezt követően törlésre vagy archiválásra kerül.</dd></div>
+    <div class="dl-row"><dt>Adattovábbítás, címzettek</dt><dd>A postafiókot a Google Ireland Limited / Google LLC (Gmail) üzemelteti adatfeldolgozóként.</dd></div>
+    <div class="dl-row"><dt>Adatok forrása</dt><dd>Az adatok forrása maga az Érintett.</dd></div>
+    <div class="dl-row"><dt>Adatszolgáltatás módja, következménye</dt><dd>Az adatok megadása önkéntes. Megadásuk hiányában az Üzemeltető nem tud válaszolni a megkeresésre.</dd></div>
+  </section>
+
+  <section class="legal-section">
+    <h2>6. A Honlap adatkezelése: sütik (cookie-k)</h2>
+    <p>A Honlap jelen Tájékoztató kiadásakor nem használ látogatottságmérő, statisztikai vagy hirdetési célú sütit (cookie-t), és nem alkalmaz egyéb nyomkövető technológiát. A Honlapon elhelyezett külső tartalmak (pl. a YouTube, Spotify, Instagram, Facebook és TikTok csatornákra mutató hivatkozások) kizárólag kattintható linkek, nem beágyazott (iframe) tartalmak, ezért önmagukban nem helyeznek el sütit az Ön eszközén.</p>
+    <p>Amennyiben az Üzemeltető a jövőben látogatottságmérő eszközt (pl. cookie-mentes analitikát, mint a Cloudflare Web Analytics, vagy sütialapú eszközt, mint a Google Analytics) vezet be, erről a Tájékoztatót frissíteni kell, és – amennyiben az alkalmazott eszköz nem feltétlenül szükséges (nem „technikai”) sütit helyez el – a Honlapon előzetes, opt-in hozzájárulást kérő cookie-tájékoztató sávot (cookie banner) kell megjeleníteni az elektronikus hírközlésről szóló 2003. évi C. törvény 155. §-a alapján.</p>
+  </section>
+
+  <section class="legal-section">
+    <h2>7. Közösségi média csatornák</h2>
+    <p>Az Üzemeltető az alábbi közösségi médiafelületeken érhető el. Ezek üzemeltetői a saját platformjukon végzett adatkezelés tekintetében önálló adatkezelőnek minősülnek; az ottani adatkezelésre az adott szolgáltató saját adatvédelmi tájékoztatója irányadó:</p>
+    <div style="overflow-x:auto">
+      <table class="legal-table">
+        <thead><tr><th>Közösségi oldal</th><th>Üzemeltető és adatvédelmi tájékoztató</th></tr></thead>
+        <tbody>
+          <tr><td>YouTube</td><td>Google Ireland Limited (Dublin, Írország) - <a href="https://policies.google.com/privacy?hl=hu" target="_blank" rel="noopener">policies.google.com/privacy</a></td></tr>
+          <tr><td>Spotify</td><td>Spotify AB (Stockholm, Svédország) - <a href="https://www.spotify.com/hu/legal/privacy-policy/" target="_blank" rel="noopener">spotify.com/hu/legal/privacy-policy</a></td></tr>
+          <tr><td>Instagram</td><td>Meta Platforms Ireland Ltd. (Dublin, Írország) - <a href="https://www.facebook.com/help/instagram/155833707900388/" target="_blank" rel="noopener">facebook.com/help/instagram/…</a></td></tr>
+          <tr><td>Facebook</td><td>Meta Platforms Ireland Ltd. (Dublin, Írország) - <a href="https://www.facebook.com/privacy/explanation" target="_blank" rel="noopener">facebook.com/privacy/explanation</a></td></tr>
+          <tr><td>TikTok</td><td>TikTok Technology Limited (Dublin, Írország) - <a href="https://www.tiktok.com/legal/privacy-policy" target="_blank" rel="noopener">tiktok.com/legal/privacy-policy</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Az Üzemeltető a közösségi oldalak felhasználóinak adatait a saját belső rendszerében nem rögzíti és nem kezeli; a visszajelzésekre, kommentekre és üzenetekre adott válaszok a közösségi platform saját funkcióin keresztül, a platform szabályai szerint történnek.</p>
+  </section>
+
+  <section class="legal-section">
+    <h2>8. Az adatokhoz való hozzáférés</h2>
+    <p>A beérkezett személyes adatokhoz kizárólag az Üzemeltető, illetve az 5. pontban megjelölt adatfeldolgozók (Formspree, Gmail) férnek hozzá, a feladataik ellátásához szükséges mértékben.</p>
+  </section>
+
+  <section class="legal-section">
+    <h2>9. Adatbiztonsági intézkedések</h2>
+    <p>Az Üzemeltető megfelelő technikai és szervezési intézkedésekkel gondoskodik az általa kezelt személyes adatok védelméről, ideértve a jogosulatlan hozzáférés, megváltoztatás, nyilvánosságra hozatal, törlés, sérülés vagy megsemmisülés elleni védelmet.</p>
+  </section>
+
+  <section class="legal-section">
+    <h2>10. Az Önt megillető jogok</h2>
+    <details class="acc-item" open>
+      <summary><span class="acc-head">Tájékoztatáshoz való jog (GDPR 13–14. cikk)</span><span class="acc-chevron">▸</span></summary>
+      <div class="acc-body"><div class="acc-body-inner"><p style="margin:0">Ön jogosult arra, hogy a személyes adatai megszerzésének időpontjában tájékoztatást kapjon az adatkezelés tényéről és céljairól, valamint minden olyan további információról, amely a tisztességes és átlátható adatkezeléshez szükséges.</p></div></div>
+    </details>
+    <details class="acc-item">
+      <summary><span class="acc-head">Hozzáféréshez való jog (GDPR 15. cikk)</span><span class="acc-chevron">▸</span></summary>
+      <div class="acc-body"><div class="acc-body-inner"><p style="margin:0">Ön jogosult tájékoztatást kérni arról, hogy folyamatban van-e Önre vonatkozó adatkezelés, és ha igen, megismerni, hogy az Üzemeltető milyen adatát, milyen jogalapon, milyen célból, mennyi ideig kezeli, és kinek továbbította.</p></div></div>
+    </details>
+    <details class="acc-item">
+      <summary><span class="acc-head">Helyesbítéshez való jog (GDPR 16. cikk)</span><span class="acc-chevron">▸</span></summary>
+      <div class="acc-body"><div class="acc-body-inner"><p style="margin:0">Ön jogosult kérni a pontatlan személyes adatai helyesbítését, illetve a hiányos adatok kiegészítését.</p></div></div>
+    </details>
+    <details class="acc-item">
+      <summary><span class="acc-head">Törléshez való jog, „az elfeledtetéshez való jog” (GDPR 17. cikk)</span><span class="acc-chevron">▸</span></summary>
+      <div class="acc-body"><div class="acc-body-inner"><p style="margin:0">Ön jogosult kérni az adatai törlését, ha azokra már nincs szükség a gyűjtés céljából, Ön visszavonta a hozzájárulását, vagy az adatkezelés jogellenes.</p></div></div>
+    </details>
+    <details class="acc-item">
+      <summary><span class="acc-head">Korlátozáshoz való jog (GDPR 18. cikk)</span><span class="acc-chevron">▸</span></summary>
+      <div class="acc-body"><div class="acc-body-inner"><p style="margin:0">Ön jogosult kérni az adatkezelés korlátozását, például ha vitatja az adatok pontosságát, vagy ha az adatkezelés jogellenes, de Ön a törlés helyett a korlátozást kéri.</p></div></div>
+    </details>
+    <details class="acc-item">
+      <summary><span class="acc-head">Adathordozhatósághoz való jog (GDPR 20. cikk)</span><span class="acc-chevron">▸</span></summary>
+      <div class="acc-body"><div class="acc-body-inner"><p style="margin:0">Ha az adatkezelés hozzájáruláson alapul és automatizált módon történik, Ön jogosult az Ön által megadott adatokat tagolt, géppel olvasható formátumban megkapni, illetve kérni azok más adatkezelőhöz történő továbbítását.</p></div></div>
+    </details>
+    <details class="acc-item">
+      <summary><span class="acc-head">Tiltakozáshoz való jog (GDPR 21. cikk)</span><span class="acc-chevron">▸</span></summary>
+      <div class="acc-body"><div class="acc-body-inner"><p style="margin:0">Ön jogosult tiltakozni a jogos érdeken alapuló adatkezelés ellen; ebben az esetben az adatai a továbbiakban nem kezelhetők, kivéve, ha az Üzemeltető olyan kényszerítő erejű jogos okot igazol, amely elsőbbséget élvez az Ön érdekeivel szemben.</p></div></div>
+    </details>
+    <details class="acc-item">
+      <summary><span class="acc-head">Hozzájárulás visszavonásának joga (GDPR 7. cikk (3) bek.)</span><span class="acc-chevron">▸</span></summary>
+      <div class="acc-body"><div class="acc-body-inner"><p style="margin:0">Ha az adatkezelés az Ön hozzájárulásán alapul, Ön azt bármikor, ugyanolyan egyszerű módon visszavonhatja, mint ahogyan megadta. A visszavonás a visszavonás előtti adatkezelés jogszerűségét nem érinti.</p></div></div>
+    </details>
+    <p style="margin-top:14px">Jogai gyakorlásával kapcsolatban forduljon hozzánk az 1. pontban megadott e-mail címen.</p>
+  </section>
+
+  <section class="legal-section">
+    <h2>11. Jogorvoslati lehetőségek</h2>
+    <div class="dl-row">
+      <dt>Panasztétel a Felügyeleti Hatóságnál (GDPR 77. cikk)</dt>
+      <dd>
+        Nemzeti Adatvédelmi és Információszabadság Hatóság (NAIH)<br />
+        Székhely: 1055 Budapest, Falk Miksa utca 9-11.<br />
+        Levelezési cím: 1363 Budapest, Pf. 9.<br />
+        Telefon: +36 (1) 391-1400<br />
+        E-mail: ugyfelszolgalat@naih.hu<br />
+        Honlap: <a href="https://www.naih.hu" target="_blank" rel="noopener">www.naih.hu</a>
+      </dd>
+    </div>
+    <div class="dl-row">
+      <dt>Bírósági jogorvoslathoz való jog (GDPR 79. cikk)</dt>
+      <dd>Ön jogosult az Üzemeltetővel vagy az általa igénybe vett adatfeldolgozóval szemben bírósághoz fordulni, ha megítélése szerint a személyes adatai kezelése jogellenes. A per a lakóhelye vagy tartózkodási helye szerint illetékes törvényszék előtt is megindítható. A törvényszékek elérhetősége: <a href="https://www.birosag.hu/torvenyszekek" target="_blank" rel="noopener">birosag.hu/torvenyszekek</a></dd>
+    </div>
+  </section>
+
+  <section class="legal-section">
+    <h2>12. A Tájékoztató frissítése</h2>
+    <p>Az Üzemeltető fenntartja a jogot, hogy jelen Tájékoztatót egyoldalúan módosítsa, különösen jogszabályváltozás, hatósági gyakorlat változása vagy a Honlapon nyújtott szolgáltatások (pl. sütik, hírlevél bevezetése) változása esetén. A mindenkor hatályos Tájékoztató a Honlapon érhető el.</p>
+    <p style="font-family:var(--mono);font-size:.82rem;color:var(--muted)">Budapest, 2026. november 7.</p>
+  </section>
+</main>
+
+<footer>
+  <ul class="social">
+    <li><a href="https://www.youtube.com/@VedelmiHorizont" target="_blank" rel="noopener" aria-label="YouTube"><svg class="ic"><use href="#i-youtube"/></svg></a></li>
+    <li><a href="https://open.spotify.com/show/033pDLxKwYGx5RxlXy5y75?si=47af6341f9104a2c" target="_blank" rel="noopener" aria-label="Spotify"><svg class="ic"><use href="#i-spotify"/></svg></a></li>
+    <li><a href="https://www.instagram.com/vedelmi.horizont?igsh=MXJ2c2h4anF5d3RkbQ%3D%3D" target="_blank" rel="noopener" aria-label="Instagram"><svg class="ic"><use href="#i-instagram"/></svg></a></li>
+    <li><a href="https://www.facebook.com/people/V%C3%A9delmi-Horizont/61590637317386/" target="_blank" rel="noopener" aria-label="Facebook"><svg class="ic"><use href="#i-facebook"/></svg></a></li>
+    <li><a href="https://www.tiktok.com/@vedelmi.horizont?is_from_webapp=1&amp;sender_device=pc" target="_blank" rel="noopener" aria-label="TikTok"><svg class="ic"><use href="#i-tiktok"/></svg></a></li>
+  </ul>
+  <p class="copy">© 2026 Védelmi Horizont · <span data-hu="prototípus" data-en="prototype">prototípus</span></p>
+  <p class="legal"><a href="adatvedelem.html" data-hu="Adatvédelem" data-en="Privacy">Adatvédelem</a></p>
+</footer>
+
+<script>
+(function () {
+  var langBtns = document.querySelectorAll('.lang button');
+  var lang = 'hu';
+  try { var savedLang = localStorage.getItem('vh-lang'); if (savedLang === 'hu' || savedLang === 'en') lang = savedLang; } catch (e) {}
+
+  function applyLang() {
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-hu]').forEach(function (el) {
+      var v = el.getAttribute('data-' + lang);
+      if (v != null) el.innerHTML = v;
+    });
+    langBtns.forEach(function (b) { b.classList.toggle('on', b.getAttribute('data-lang') === lang); });
+    applyThemeUI(currentTheme());
+  }
+  langBtns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      lang = b.getAttribute('data-lang');
+      try { localStorage.setItem('vh-lang', lang); } catch (e) {}
+      applyLang();
+    });
+  });
+
+  var root = document.documentElement;
+  var themeBtn = document.getElementById('themeToggle');
+  var themeIcon = themeBtn.querySelector('.theme-icon');
+  var themeLabel = themeBtn.querySelector('.label');
+
+  function systemPrefersDark() { return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches; }
+  function currentTheme() {
+    var attr = root.getAttribute('data-theme');
+    if (attr === 'dark' || attr === 'light') return attr;
+    return systemPrefersDark() ? 'dark' : 'light';
+  }
+  function applyThemeUI(theme) {
+    var strings = { hu: { dark: 'Sötét', light: 'Világos' }, en: { dark: 'Dark', light: 'Light' } };
+    if (theme === 'dark') { themeIcon.classList.add('is-dark'); themeLabel.textContent = strings[lang].dark; }
+    else { themeIcon.classList.remove('is-dark'); themeLabel.textContent = strings[lang].light; }
+  }
+  var savedTheme = null;
+  try { savedTheme = localStorage.getItem('vh-theme'); } catch (e) {}
+  var userChosen = savedTheme === 'dark' || savedTheme === 'light';
+  if (userChosen) root.setAttribute('data-theme', savedTheme);
+  applyThemeUI(currentTheme());
+  themeBtn.addEventListener('click', function () {
+    var next = currentTheme() === 'dark' ? 'light' : 'dark';
+    userChosen = true;
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('vh-theme', next); } catch (e) {}
+    applyThemeUI(next);
+  });
+  if (window.matchMedia) {
+    var mq = window.matchMedia('(prefers-color-scheme: dark)');
+    var onSystemThemeChange = function () { if (!userChosen) applyThemeUI(currentTheme()); };
+    if (mq.addEventListener) mq.addEventListener('change', onSystemThemeChange);
+    else if (mq.addListener) mq.addListener(onSystemThemeChange);
+  }
+
+  applyLang();
+})();
+</script>
+</body>
+</html>
