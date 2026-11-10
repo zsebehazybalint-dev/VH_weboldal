@@ -57,3 +57,17 @@ Jelenleg letiltva: `/jog/`, `/raw_leiratok/`, `/leiratok/`, `/vh_videok/`, `/Csa
 
 - Epizódoldal létrehozásakor használd a legutóbbi epizódfájlt sablonként (fejléc/lábléc/CSS struktúra azonos mindegyiken) — ne írj újra mindent nulláról.
 - `index.html` epizód-rácsába új kártya felvételekor: `data-ep-item` + `data-ep-title` (kisbetűs, keresőmezőhöz kell), `alt` szöveg a borítóképen (sose maradjon üres), és a kezdőlap teteji "Legfrissebb epizód" gomb frissítése.
+
+## Admin oldal (`/admin`) — új epizód formmal, kód nélkül
+
+A `functions/` mappa egy Cloudflare Pages Function admin felületet ad
+(`/admin`), amivel új epizód a fenti összes helyen (epizódoldal, `index.html`
+mindkét "legfrissebb" blokkja + grid-kártya átrendezés, az előző epizód
+pager-je, `sitemap.xml`) EGY atomi GitHub commit-tal, form kitöltésével
+közzétehető — nincs hozzá sem LLM-hívás, sem kézi HTML-szerkesztés. Beüzemelés
+(GitHub token, Cloudflare env var-ok, Cloudflare Access védelem): lásd
+[ADMIN_SETUP.md](ADMIN_SETUP.md). A generáló logika (`functions/_lib/`) a
+jelen fájlban leírt konvenciókat (SEO, JSON-LD, prev/next pager, data-hu/en)
+kódban tartja karban — ha ez a dokumentum változik (pl. a design rendszer),
+a `functions/_lib/template.js`-t is frissíteni kell, különben a form a régi
+sablont fogja generálni.
