@@ -1,0 +1,14 @@
+# Ezek a fájlok a Worker kódjához/konfigurációjához tartoznak, nem a
+# weboldal statikus tartalmához - ne töltse fel őket a Cloudflare statikus
+# asset-ként (ne legyenek közvetlenül letölthetők/böngészhetők).
+functions
+worker
+wrangler.toml
+.assetsignore
+.gitignore
+ADMIN_SETUP.md
+CLAUDE.md
+README.md
+.git
+.wrangler
+node_modules

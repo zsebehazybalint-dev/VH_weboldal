@@ -1,0 +1,14 @@
+name = "vh-weboldal"
+main = "worker/index.js"
+compatibility_date = "2025-06-01"
+
+[assets]
+directory = "."
+binding = "ASSETS"
+run_worker_first = true
+# A site minden canonical/OG/sitemap URL-je és belső linkje kifejezetten
+# ".html"-re végződik (lásd CLAUDE.md SEO-konvenciók) - az assets alapértelmezett
+# "auto-trailing-slash" viselkedése 307-tel átirányítaná ezeket a kiterjesztés
+# nélküli URL-re, ami megváltoztatná a kanonikus URL-eket. "none" = a fájlokat
+# pontosan a saját elérési útjukon szolgálja ki, átirányítás nélkül.
+html_handling = "none"
