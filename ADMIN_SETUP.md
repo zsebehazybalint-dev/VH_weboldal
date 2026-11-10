@@ -1,10 +1,14 @@
 # Admin oldal - új epizód közzététele - beüzemelési útmutató
 
-Ez az oldal (`/admin`) egy Cloudflare Pages Function, ami a `functions/` mappában
-lakik a repó gyökerében. A statikus site build lépése marad üres (semmi nem
-változik a jelenlegi Cloudflare Pages beállításokon) - a Functions-öket a
-Cloudflare Pages automatikusan felismeri és deploy-olja a `functions/` mappa
-alapján, külön konfiguráció nélkül.
+Ez az oldal (`/admin`) a Cloudflare **Workers** platformján fut (a `vh-weboldal`
+projekt a dashboardon a "Workers & Pages" alatt van, de ténylegesen Workers,
+nem klasszikus Pages - a build parancsa `npx wrangler deploy`). Ezért van a
+repó gyökerében egy `wrangler.toml` + `worker/index.js`: ez egyetlen Worker
+belépési pont, ami a `functions/` mappában lévő kódot route-olja kézzel a
+`/admin` és `/api/*` útvonalakra, a többi kérést pedig a statikus fájlokra
+(assets binding) engedi át. Ha ezt elfelejtenéd és visszaállítanád a sima
+Pages Functions feltételezést, a build ugyanazzal a hibával fog elállni,
+mint amivel ez a migráció született.
 
 A kódot sem én, sem a form nem tudja magától élesbe tenni - ehhez a lenti
 lépéseket **neked** kell egyszer, kézzel elvégezned a GitHub és a Cloudflare
@@ -16,11 +20,11 @@ felületén. Utána minden további epizód már csak a form kitöltése.
 2. **Repository access**: "Only select repositories" → válaszd ki ezt az egy repót (`VH_weboldal`).
 3. **Permissions** → Repository permissions → **Contents: Read and write**. Minden mást hagyj "No access"-en.
 4. Lejárat: állíts be egy dátumot (pl. 1 év), és naptáridőzítsd magadnak a megújítást - ha lejár, az admin oldal hibát fog dobni publikáláskor, amíg nem cseréled.
-5. Mentsd el a tokent valahova biztonságosan (jelszókezelő) - ez kerül majd a Cloudflare Pages titkos környezeti változójába.
+5. Mentsd el a tokent valahova biztonságosan (jelszókezelő) - ez kerül majd a Cloudflare Worker titkos környezeti változójába.
 
-## 2. Cloudflare Pages environment variable-ök
+## 2. Cloudflare Worker environment variable-ök
 
-Cloudflare dashboard → Workers & Pages → (a projekted) → **Settings → Environment variables** (Production):
+Cloudflare dashboard → Workers & Pages → **vh-weboldal** → **Settings → Variables and Secrets**:
 
 | Név | Érték | Típus |
 |---|---|---|
@@ -48,7 +52,7 @@ közzétenni a nevedben.
 1. Jelentkezz be az `/admin`-ra.
 2. A "Jelenlegi állapot" doboznak be kell töltenie a jelenlegi legfrissebb epizódot (`GET /api/episode-defaults` hívás a háttérben) - ha hibát ír ki, az env var-ok vagy a token hibás.
 3. Tölts ki egy **teszt** epizódot (nyugodtan kitalált adatokkal, de érvényes leirat-JSON-nal), nyomj "Előnézet"-et, nézd át a listát, majd ha minden stimmel, "Közzététel most".
-4. Ellenőrizd a GitHub repóban, hogy a commit megjelent (`https://github.com/<owner>/<repo>/commits/main`), és kb. 1 percen belül a Cloudflare Pages deploy logban is.
+4. Ellenőrizd a GitHub repóban, hogy a commit megjelent (`https://github.com/<owner>/<repo>/commits/main`), és kb. 1 percen belül a Cloudflare dashboard **Deployments** fülén is (vh-weboldal projekt).
 5. Nézd meg élesben az új epizód oldalát és az index.html-t - ha valami nem stimmel, egy `git revert` a commit-on azonnal visszaállítja az előző állapotot.
 
 ## Mit NEM old meg ez a rendszer
