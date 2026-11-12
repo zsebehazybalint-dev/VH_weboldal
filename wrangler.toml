@@ -12,3 +12,23 @@ run_worker_first = true
 # nélküli URL-re, ami megváltoztatná a kanonikus URL-eket. "none" = a fájlokat
 # pontosan a saját elérési útjukon szolgálja ki, átirányítás nélkül.
 html_handling = "none"
+
+# A nem-titkos env var-ok SZÁNDÉKOSAN itt vannak, nem a Cloudflare dashboardon.
+# A projekt build parancsa `npx wrangler deploy`, és a Wrangler ezt a fájlt
+# tekinti az igazság forrásának: minden deploy TÖRLI azokat a sima változókat,
+# amiket csak a dashboardon vettek fel. Mivel az admin form publikáláskor
+# commit-ot push-ol (-> új Workers Build -> új deploy), a dashboardon beállított
+# változók az első sikeres közzététel után maguktól eltűntek volna.
+# Itt viszont verziókövetve vannak, és minden deployt túlélnek.
+#
+# A GITHUB_TOKEN NEM kerülhet ide - az titok marad, és Secret-ként kell
+# beállítani (dashboard -> Settings -> Variables and Secrets, vagy
+# `npx wrangler secret put GITHUB_TOKEN`). A secreteket a deploy megtartja.
+[vars]
+GITHUB_OWNER = "zsebehazybalint-dev"
+GITHUB_REPO = "VH_weboldal"
+GITHUB_BRANCH = "main"
+# Nem titok: csak egy allowlist-érték a Cloudflare Access mögötti második
+# ellenőrzéshez (defense-in-depth), és a repó amúgy is nyilvánosan tartalmazza
+# ezt a címet (commit-szerzőként és az ADMIN_SETUP.md példájában).
+ADMIN_ALLOWED_EMAIL = "zsebehazybalint@gmail.com"

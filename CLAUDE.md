@@ -5,7 +5,7 @@ Statikus weboldal (nincs build lépés, nincs framework) a Védelmi Horizont mag
 ## Domain és hosting
 
 - Végleges domain: **vedelmihorizont.hu** — minden `canonical`, Open Graph `og:url`, JSON-LD `url` és a `sitemap.xml`/`robots.txt` ezt feltételezi. Ha a domain változik, ezt mindenhol át kell vezetni (egyszerű find&replace, konzisztensen volt eddig is alkalmazva).
-- Hosting: Cloudflare Pages, ebből a GitHub repóból (lásd a repo gyökerének `README.md`-jét a pontos build-beállításokhoz: Framework preset None, build command üres, output directory `/`).
+- Hosting: Cloudflare **Workers** (NEM a klasszikus Pages!), ebből a GitHub repóból, Workers Builds-szel. A build parancs `npx wrangler deploy`, a konfiguráció a repó gyökerében lévő `wrangler.toml`. A statikus fájlokat az `[assets]` binding szolgálja ki, a `/admin` és `/api/*` kéréseket a `worker/index.js` route-olja a `functions/` mappa handlereihez. Részletek: [ADMIN_SETUP.md](ADMIN_SETUP.md).
 - `_redirects`: Cloudflare Pages / Netlify-stílusú redirect fájl, jelenleg csak a régi `vedelmi_horizont.html` → `/` 301-et tartalmazza.
 
 ## Fájlstruktúra
@@ -60,7 +60,7 @@ Jelenleg letiltva: `/jog/`, `/raw_leiratok/`, `/leiratok/`, `/vh_videok/`, `/Csa
 
 ## Admin oldal (`/admin`) — új epizód formmal, kód nélkül
 
-A `functions/` mappa egy Cloudflare Pages Function admin felületet ad
+A `functions/` mappa egy admin felületet ad
 (`/admin`), amivel új epizód a fenti összes helyen (epizódoldal, `index.html`
 mindkét "legfrissebb" blokkja + grid-kártya átrendezés, az előző epizód
 pager-je, `sitemap.xml`) EGY atomi GitHub commit-tal, form kitöltésével

@@ -24,17 +24,30 @@ felületén. Utána minden további epizód már csak a form kitöltése.
 
 ## 2. Cloudflare Worker environment variable-ök
 
-Cloudflare dashboard → Workers & Pages → **vh-weboldal** → **Settings → Variables and Secrets**:
+A nem-titkos változók (`GITHUB_OWNER`, `GITHUB_REPO`, `GITHUB_BRANCH`,
+`ADMIN_ALLOWED_EMAIL`) **már a repóban vannak**, a `wrangler.toml` `[vars]`
+blokkjában - ezekkel nincs teendőd. **Ne vedd fel őket a dashboardon is**: a
+build parancs (`npx wrangler deploy`) ezt a fájlt tekinti az igazság
+forrásának, és minden deploykor törli azokat a sima változókat, amik csak a
+dashboardon léteznek. (Pontosan ez volt az eredeti hiba oka: a dashboardon
+beállított változók a következő deploynál csendben eltűntek.)
+
+Egyetlen dolgot kell kézzel beállítanod, a tokent - ez titok, ezért nem
+kerülhet a repóba:
+
+Cloudflare dashboard → Workers & Pages → **vh-weboldal** → **Settings → Variables and Secrets** → Add:
 
 | Név | Érték | Típus |
 |---|---|---|
 | `GITHUB_TOKEN` | az 1. lépésben létrehozott token | **Secret (encrypted)** |
-| `GITHUB_OWNER` | `zsebehazybalint-dev` (vagy a repó tulajdonosa) | sima változó |
-| `GITHUB_REPO` | `VH_weboldal` | sima változó |
-| `GITHUB_BRANCH` | `main` | sima változó |
-| `ADMIN_ALLOWED_EMAIL` | a saját Google/Cloudflare Access emailed (pl. `zsebehazybalint@gmail.com`) | sima változó |
 
-Mentés után **újra kell deploy-olni** (vagy egy üres commit push-ával, vagy a dashboardon "Retry deployment"), hogy a Functions megkapják az új env var-okat.
+Ügyelj rá, hogy a név pontosan `GITHUB_TOKEN` legyen, és a panelen a
+felvétel után nyomd meg a **mentés/Deploy** gombot - enélkül a szerkesztés
+piszkozat marad. Alternatíva CLI-ből: `npx wrangler secret put GITHUB_TOKEN`.
+
+Ellenőrzés: **Deployments** fül → az aktív verzió megnyitása → a bindingek
+között szerepelnie kell mind a négy változónak és a `GITHUB_TOKEN` secretnek.
+A secreteket a `wrangler deploy` megtartja, tehát ezt elég egyszer beállítani.
 
 ## 3. Cloudflare Access - az `/admin` és `/api/*` védelme
 
