@@ -317,28 +317,41 @@ button:disabled{opacity:.5;cursor:not-allowed}
     formActions.style.display = 'flex';
   });
 
+  // Az alapértelmezett időpontot SZÁNDÉKOSAN csak akkor állítjuk be, amikor a
+  // mező ténylegesen láthatóvá válik (nem korábban, még elrejtett állapotban) -
+  // egyes böngészőkben egy datetime-local input belső állapota megbízhatatlan
+  // lehet, ha az érték beállítása a mező még "hidden" állapotában történt.
+  function ensureScheduleAtDefault() {
+    if ($('scheduleAt').value) return;
+    var d = new Date(Date.now() + 60 * 60 * 1000); // alapértelmezett: 1 óra múlva
+    d.setUTCMinutes(0, 0, 0); // óra pontosság: kerek órára igazítva (UTC-ben kerekítve is kerek marad budapesti időben, mert a CET/CEST eltolás mindig egész óra)
+    $('scheduleAt').value = utcToBudapestInputValue(d);
+  }
+
   function updateTimingUI() {
     var later = $('timingLater').checked;
     $('scheduleAtLabel').hidden = !later;
     $('scheduleAt').hidden = !later;
     $('scheduleHint').hidden = !later;
     $('publishBtn').textContent = later ? 'Ütemezés' : 'Közzététel most';
+    if (later) ensureScheduleAtDefault();
   }
   $('timingNow').addEventListener('change', updateTimingUI);
   $('timingLater').addEventListener('change', updateTimingUI);
-  (function initScheduleDefault() {
-    var d = new Date(Date.now() + 60 * 60 * 1000); // alapértelmezett: 1 óra múlva
-    d.setUTCMinutes(0, 0, 0); // óra pontosság: kerek órára igazítva (UTC-ben kerekítve is kerek marad budapesti időben, mert a CET/CEST eltolás mindig egész óra)
-    $('scheduleAt').value = utcToBudapestInputValue(d);
-  })();
 
   $('publishBtn').addEventListener('click', function () {
     var later = $('timingLater').checked;
     var publishAtIso = null;
     if (later) {
+      ensureScheduleAtDefault(); // ha mégis üresen maradt volna, most pótoljuk
       var raw = $('scheduleAt').value; // "ÉÉÉÉ-HH-NNTÓÓ:PP", budapesti falióra szerint értelmezve
-      var m = raw && raw.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/);
-      if (!m) { showMsg('Add meg az ütemezett közzététel időpontját.', 'err'); return; }
+      var m = raw && raw.match(/^(\\d{4})-(\\d{2})-(\\d{2})T(\\d{2}):(\\d{2})/);
+      if (!m) {
+        $('scheduleAt').focus();
+        if ($('scheduleAt').reportValidity) $('scheduleAt').reportValidity();
+        showMsg('Az időpont mező üresen maradt - kattints bele, add meg újra az órát, majd próbáld újra.', 'err');
+        return;
+      }
       var picked = budapestWallClockToUtc(+m[1], +m[2], +m[3], +m[4]); // a perc a step=3600 miatt mindig 00, az órát vesszük figyelembe
       publishAtIso = picked.toISOString();
       if (picked.getTime() <= Date.now()) { showMsg('Az ütemezett időpontnak a jövőben kell lennie.', 'err'); return; }
