@@ -156,7 +156,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
     <div id="preview" class="card">
       <h2>Előnézet</h2>
       <div id="previewBody"></div>
-      <label style="margin-top:18px">Közzététel időpontja</label>
+      <label style="margin-top:18px">Közzététel időpontja <span class="hint">(budapesti idő, CET/CEST)</span></label>
       <div class="radio-row">
         <label><input type="radio" name="publishTiming" value="now" id="timingNow" checked /> Most</label>
         <label><input type="radio" name="publishTiming" value="later" id="timingLater" /> Ütemezve</label>
@@ -185,6 +185,54 @@ button:disabled{opacity:.5;cursor:not-allowed}
   var formActions = $('formActions');
   var existingSlugs = [];
   var lastSummary = null;
+  var BUDAPEST_TZ = 'Europe/Budapest';
+
+  // Egy UTC pillanatból (Date) kiolvassa, mi a budapesti falióra-idő, FÜGGETLENÜL
+  // attól, milyen időzónára van állítva az admint használó eszköz.
+  function toBudapestParts(date) {
+    var fmt = new Intl.DateTimeFormat('en-US', {
+      timeZone: BUDAPEST_TZ, hour12: false,
+      year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit',
+    });
+    var map = {};
+    fmt.formatToParts(date).forEach(function (p) { if (p.type !== 'literal') map[p.type] = p.value; });
+    if (map.hour === '24') map.hour = '00';
+    return map;
+  }
+
+  // Egy budapesti falióra-időpontból (év, hó, nap, óra - helyi CET/CEST szerint)
+  // kiszámolja a megfelelő abszolút UTC pillanatot (Date), a nyári/téli időszámítást
+  // is helyesen kezelve - fixpontos iterációval (Intl API-val, külső könyvtár
+  // nélkül). Egyetlen korrekciós lépés NEM lenne elég: a tavaszi óraátállítás
+  // napján hajnal 0-3 óra közötti budapesti időpontoknál egy lépés után is
+  // tévesen a másik (nyári/téli) eltolást kapnánk vissza - ezért újra
+  // ellenőrizzük az eredményt, és szükség esetén még egyszer korrigálunk.
+  function budapestWallClockToUtc(y, mo, d, h) {
+    var targetMs = Date.UTC(y, mo - 1, d, h, 0, 0);
+    var resultMs = targetMs;
+    for (var i = 0; i < 3; i++) {
+      var got = toBudapestParts(new Date(resultMs));
+      var gotMs = Date.UTC(+got.year, +got.month - 1, +got.day, +got.hour, +got.minute, +got.second);
+      var diff = targetMs - gotMs;
+      if (diff === 0) break;
+      resultMs += diff;
+    }
+    return new Date(resultMs);
+  }
+
+  // Egy UTC pillanatot (Date vagy ISO string) "ÉÉÉÉ-HH-NNTÓÓ:PP" formává alakít,
+  // a budapesti faliórának megfelelően - ezt lehet beírni egy datetime-local
+  // input value-jába.
+  function utcToBudapestInputValue(date) {
+    var p = toBudapestParts(date instanceof Date ? date : new Date(date));
+    return p.year + '-' + p.month + '-' + p.day + 'T' + p.hour + ':' + p.minute;
+  }
+
+  function formatBudapest(date) {
+    return new Intl.DateTimeFormat('hu-HU', {
+      timeZone: BUDAPEST_TZ, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit',
+    }).format(date instanceof Date ? date : new Date(date));
+  }
 
   function showMsg(text, kind) {
     msg.textContent = text;
@@ -275,18 +323,18 @@ button:disabled{opacity:.5;cursor:not-allowed}
   $('timingLater').addEventListener('change', updateTimingUI);
   (function initScheduleDefault() {
     var d = new Date(Date.now() + 60 * 60 * 1000); // alapértelmezett: 1 óra múlva
-    d.setMinutes(0, 0, 0); // óra pontosság: kerek órára igazítva
-    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
-    $('scheduleAt').value = d.toISOString().slice(0, 16);
+    d.setUTCMinutes(0, 0, 0); // óra pontosság: kerek órára igazítva (UTC-ben kerekítve is kerek marad budapesti időben, mert a CET/CEST eltolás mindig egész óra)
+    $('scheduleAt').value = utcToBudapestInputValue(d);
   })();
 
   $('publishBtn').addEventListener('click', function () {
     var later = $('timingLater').checked;
     var publishAtIso = null;
     if (later) {
-      if (!$('scheduleAt').value) { showMsg('Add meg az ütemezett közzététel időpontját.', 'err'); return; }
-      var picked = new Date($('scheduleAt').value);
-      picked.setMinutes(0, 0, 0); // óra pontosság kikényszerítése akkor is, ha a böngésző mégis engedne percet
+      var raw = $('scheduleAt').value; // "ÉÉÉÉ-HH-NNTÓÓ:PP", budapesti falióra szerint értelmezve
+      var m = raw && raw.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/);
+      if (!m) { showMsg('Add meg az ütemezett közzététel időpontját.', 'err'); return; }
+      var picked = budapestWallClockToUtc(+m[1], +m[2], +m[3], +m[4]); // a perc a step=3600 miatt mindig 00, az órát vesszük figyelembe
       publishAtIso = picked.toISOString();
       if (picked.getTime() <= Date.now()) { showMsg('Az ütemezett időpontnak a jövőben kell lennie.', 'err'); return; }
     }
@@ -305,7 +353,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
         }
         previewBox.style.display = 'none';
         if (res.data.scheduled) {
-          showMsg('Ütemezve: ' + res.data.summary.url + ' - a rendszer automatikusan közzéteszi ' + new Date(res.data.publishAt).toLocaleString('hu-HU') + '-kor.', 'ok');
+          showMsg('Ütemezve: ' + res.data.summary.url + ' - a rendszer automatikusan közzéteszi ' + formatBudapest(res.data.publishAt) + ' (budapesti idő) -kor.', 'ok');
           loadPending();
         } else {
           showMsg('Közzétéve: ' + res.data.summary.url + ' - a Cloudflare kb. 1 percen belül kiteszi élesben. Commit: ' + res.data.commitUrl, 'ok');
@@ -325,7 +373,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
     if (!items.length) { pendingCard.style.display = 'none'; pendingList.innerHTML = ''; return; }
     pendingCard.style.display = 'block';
     pendingList.innerHTML = items.map(function (it) {
-      var when = new Date(it.publishAt).toLocaleString('hu-HU');
+      var when = formatBudapest(it.publishAt) + ' (budapesti idő)';
       var statusLine = it.failed
         ? '<span class="failed">Sikertelen (' + it.attempts + ' próbálkozás) - ' + (it.lastError || '') + '</span>'
         : (it.attempts > 0 ? '<span class="meta">' + it.attempts + '. újrapróbálkozás folyamatban - ' + (it.lastError || '') + '</span>' : '');
