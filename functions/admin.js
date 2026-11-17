@@ -61,7 +61,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .radio-row label{display:flex;align-items:center;gap:6px;font-size:.85rem;color:var(--text);margin:0}
 .radio-row input{margin:0}
 #scheduleAt{margin-top:10px;max-width:280px}
-#scheduleAt[hidden]{display:none}
+#scheduleAt[hidden],#scheduleAtLabel[hidden]{display:none}
 .pending-list{list-style:none;margin:0;padding:0}
 .pending-list li{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-top:1px solid var(--line);font-size:.85rem}
 .pending-list li:first-child{border-top:0}
@@ -150,19 +150,23 @@ button:disabled{opacity:.5;cursor:not-allowed}
       <input type="file" id="coverImage" name="coverImage" accept="image/jpeg" />
     </div>
 
+    <div class="card">
+      <h2>Közzététel időpontja</h2>
+      <div class="radio-row">
+        <label><input type="radio" name="publishTiming" value="now" id="timingNow" checked /> Most</label>
+        <label><input type="radio" name="publishTiming" value="later" id="timingLater" /> Ütemezve</label>
+      </div>
+      <label for="scheduleAt" style="margin-top:12px" hidden id="scheduleAtLabel">Időpont <span class="hint">(budapesti idő, CET/CEST)</span></label>
+      <input type="datetime-local" id="scheduleAt" step="3600" hidden />
+      <p class="hint" id="scheduleHint" hidden>A commit (és így az élesedés) automatikusan megtörténik a megadott időpontban, legfeljebb ~5 perc csúszással - ezután már nincs újabb megerősítés, úgyhogy az Előnézetet még ütemezés előtt alaposan nézd át.</p>
+    </div>
+
     <input type="hidden" name="mode" id="mode" value="preview" />
     <div id="msg"></div>
 
     <div id="preview" class="card">
       <h2>Előnézet</h2>
       <div id="previewBody"></div>
-      <label style="margin-top:18px">Közzététel időpontja <span class="hint">(budapesti idő, CET/CEST)</span></label>
-      <div class="radio-row">
-        <label><input type="radio" name="publishTiming" value="now" id="timingNow" checked /> Most</label>
-        <label><input type="radio" name="publishTiming" value="later" id="timingLater" /> Ütemezve</label>
-      </div>
-      <input type="datetime-local" id="scheduleAt" step="3600" hidden />
-      <p class="hint" id="scheduleHint" hidden>A commit (és így az élesedés) automatikusan megtörténik a megadott időpontban, legfeljebb ~5 perc csúszással - ezután már nincs újabb megerősítés, úgyhogy az Előnézetet még ütemezés előtt alaposan nézd át.</p>
       <div class="actions">
         <button type="button" id="publishBtn" class="primary">Közzététel most</button>
         <button type="button" id="backBtn">Vissza a szerkesztéshez</button>
@@ -315,6 +319,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
 
   function updateTimingUI() {
     var later = $('timingLater').checked;
+    $('scheduleAtLabel').hidden = !later;
     $('scheduleAt').hidden = !later;
     $('scheduleHint').hidden = !later;
     $('publishBtn').textContent = later ? 'Ütemezés' : 'Közzététel most';
