@@ -17,8 +17,11 @@ function renderTranscriptHtml(turns) {
     .join('\n');
 }
 
-function renderParagraphsHtml(paragraphs) {
-  return paragraphs.map((p) => `  <p>${escapeHtml(p)}</p>`).join('\n');
+// pairs: [{ hu, en }, ...] - egy-az-egyben megfeleltetett HU/EN bekezdéspárok.
+function renderParagraphsHtml(pairs) {
+  return pairs
+    .map((p) => `  <p data-hu="${escapeHtml(p.hu)}" data-en="${escapeHtml(p.en)}">${escapeHtml(p.hu)}</p>`)
+    .join('\n');
 }
 
 function renderPagerHtml(prev, next) {
@@ -33,7 +36,7 @@ function renderPagerHtml(prev, next) {
 
 // ep: {
 //   title, slug, isoDate, durationDisplay, durationIso, youtubeUrl, youtubeId,
-//   spotifyUrl, coverFile, metaDescription, descriptionParagraphs, participantsLine,
+//   spotifyUrl, coverFile, metaDescription, descriptionPairs: [{hu,en}], participantsLine,
 //   turns, prev: {slug,title}|null, next: {slug,title}|null
 // }
 export function renderEpisodePage(ep) {
@@ -49,7 +52,7 @@ export function renderEpisodePage(ep) {
     url: canonical,
     datePublished: ep.isoDate,
     duration: ep.durationIso,
-    description: ep.descriptionParagraphs.join(' '),
+    description: ep.descriptionPairs.map((p) => p.hu).join(' '),
     partOfSeries: { '@type': 'PodcastSeries', name: 'Védelmi Horizont', url: 'https://vedelmihorizont.hu/' },
     associatedMedia: { '@type': 'MediaObject', contentUrl: ep.youtubeUrl },
     image: coverUrl,
@@ -266,7 +269,7 @@ ${JSON.stringify(jsonLd, null, 2)}
 
   <h2 class="section-h" data-hu="Leírás" data-en="Description">Leírás</h2>
   <p class="note" style="margin:0 0 18px" data-hu="${escapeHtml(ep.participantsLine)}" data-en="${escapeHtml(ep.participantsLineEn)}">${escapeHtml(ep.participantsLine)}</p>
-${renderParagraphsHtml(ep.descriptionParagraphs)}
+${renderParagraphsHtml(ep.descriptionPairs)}
 
   <h2 class="section-h" data-hu="Leirat beszélőnként" data-en="Transcript by speaker">Leirat beszélőnként</h2>
   <div class="transcript">

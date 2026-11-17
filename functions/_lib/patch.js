@@ -96,14 +96,20 @@ export function patchIndexHtml(indexHtml, { newEp, oldLatest }) {
 }
 
 export function patchPrevEpisodePager(oldLatestHtml, newEp) {
-  const sentinel = '<span></span>\n  </nav>';
-  if (!oldLatestHtml.includes(sentinel)) {
+  // A sentinel \r?\n-nel toleráns: a repóban lévő epizódfájlok CRLF-esek,
+  // de egy esetleg LF-fel generált fájlt is helyesen kell illeszteni -
+  // ezért a ténylegesen talált sortörést (nl) és behúzást (indent) újra
+  // felhasználjuk a cserénél, a fájl saját konvencióját megtartva.
+  const sentinelRe = /<span><\/span>(\r?\n)([ \t]*)<\/nav>/;
+  const m = oldLatestHtml.match(sentinelRe);
+  if (!m) {
     throw new ValidationError(
       'Az eddigi legfrissebb epizód oldalán nem találom az üres "next" pager-helyet - lehet, hogy ennek az oldalnak már van next linkje (nem ez volt a legfrissebb?).'
     );
   }
+  const [, nl, indent] = m;
   const nextLink = `<a class="next" href="${newEp.slug}.html"><span class="dir" data-hu="Következő epizód &#8594;" data-en="Next episode &#8594;">Következő epizód &#8594;</span><span class="ttl">${escapeHtml(newEp.title)}</span></a>`;
-  return oldLatestHtml.replace(sentinel, `${nextLink}\n  </nav>`);
+  return oldLatestHtml.replace(sentinelRe, `${nextLink}${nl}${indent}</nav>`);
 }
 
 export function patchSitemap(sitemapXml, newEp) {

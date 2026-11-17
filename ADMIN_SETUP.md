@@ -68,6 +68,36 @@ közzétenni a nevedben.
 4. Ellenőrizd a GitHub repóban, hogy a commit megjelent (`https://github.com/<owner>/<repo>/commits/main`), és kb. 1 percen belül a Cloudflare dashboard **Deployments** fülén is (vh-weboldal projekt).
 5. Nézd meg élesben az új epizód oldalát és az index.html-t - ha valami nem stimmel, egy `git revert` a commit-on azonnal visszaállítja az előző állapotot.
 
+## Ütemezett közzététel
+
+A formon az előnézet után választható "Ütemezve" opció: ekkor a tényleges
+GitHub commit (és így az élesedés) nem azonnal történik meg, hanem a megadott
+időpontban, legfeljebb ~5 perc csúszással. Ehhez tartozik:
+
+- egy Cloudflare **Workers KV namespace** (`SCHEDULE_KV` binding, lásd
+  `wrangler.toml` `[[kv_namespaces]]`), amiben a még ki nem commitolt
+  epizódok adatai (cím, leírás, leirat, borítókép base64-ben) ideiglenesen
+  tárolódnak - a `GITHUB_TOKEN` **nem** kerül bele, az a commit pillanatában
+  a secretből jön;
+- egy **Cron Trigger** (`wrangler.toml` `[triggers]`), ami 5 percenként
+  lefuttatja a `worker/index.js` `scheduled` handlerét - ez nézi meg, van-e
+  lejárt ütemezésű tétel, és ha igen, a commit a LEJÁRAT pillanatában
+  aktuális `index.html`/`sitemap.xml`/"legfrissebb epizód" állapothoz
+  illesztve történik meg (nem az ütemezéskori, esetleg azóta elavult
+  állapothoz).
+
+Mindkettő már be van állítva ebben a repóban (a KV namespace ID a
+`wrangler.toml`-ban van, nem kell hozzá külön lépés) - ha mégis újra kellene
+létrehozni: `npx wrangler kv namespace create SCHEDULE_KV`, majd a kapott ID-t
+írd be a `wrangler.toml` `[[kv_namespaces]]` `id` mezőjébe.
+
+Egy sikertelen (pl. GitHub API hiba miatt elakadt) ütemezett tétel minden
+lejárt 5 perces cron-ciklusban újra próbálkozik, amíg 5 próbálkozás után
+"Sikertelen" jelzést nem kap az admin oldal "Ütemezett közzétételek"
+dobozában - onnantól a Cron Trigger már nem próbálkozik tovább vele
+automatikusan, de a tétel nem vész el: ott marad a listában (a hibaüzenettel
+együtt), és "Mégsem" gombbal törölhető.
+
 ## Mit NEM old meg ez a rendszer
 
 - A nyers hangfelismerés, beszélő-elkülönítés (diarizáció) és a HU/EN

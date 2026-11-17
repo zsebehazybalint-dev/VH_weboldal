@@ -32,3 +32,15 @@ GITHUB_BRANCH = "main"
 # ellenőrzéshez (defense-in-depth), és a repó amúgy is nyilvánosan tartalmazza
 # ezt a címet (commit-szerzőként és az ADMIN_SETUP.md példájában).
 ADMIN_ALLOWED_EMAIL = "zsebehazybalint@gmail.com"
+
+# Ütemezett epizód-közzétételek ideiglenes tárolója (a tényleges GitHub
+# commit-ig). Csak a Worker kódjából érhető el, kívülről nem - a GITHUB_TOKEN
+# NEM kerül bele, az a commit pillanatában a secretből jön. Lásd ADMIN_SETUP.md.
+[[kv_namespaces]]
+binding = "SCHEDULE_KV"
+id = "6fe68fc808a5433b9ed105ca0d51eae1"
+
+# 5 percenként megnézi, van-e lejárt ütemezésű, még ki nem commitolt epizód
+# a SCHEDULE_KV-ban (worker/index.js `scheduled` handler).
+[triggers]
+crons = ["*/5 * * * *"]

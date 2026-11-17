@@ -71,3 +71,15 @@ jelen fájlban leírt konvenciókat (SEO, JSON-LD, prev/next pager, data-hu/en)
 kódban tartja karban — ha ez a dokumentum változik (pl. a design rendszer),
 a `functions/_lib/template.js`-t is frissíteni kell, különben a form a régi
 sablont fogja generálni.
+
+- A form a teljes leírást **HU és EN nyelven is kéri** (a "Leírás (angol)"
+  kártya) — a két szövegnek bekezdésenként egy-az-egyben meg kell felelnie
+  (ugyanannyi bekezdés, ugyanott üres sor), mert az epizódoldalon ebből lesz
+  a `data-hu`/`data-en` páros minden bekezdésen. A meta description/OG-tagek
+  változatlanul csak magyarul készülnek (nincs rájuk EN-verzió a form-ban).
+- A közzététel **időzíthető**: az Előnézet után "Ütemezve" választva a
+  tényleges GitHub commit nem azonnal, hanem a megadott időpontban történik
+  meg (`functions/_lib/schedule.js` + Cloudflare KV + Cron Trigger, lásd
+  ADMIN_SETUP.md "Ütemezett közzététel" szakaszát). A függőben lévő
+  ütemezések az admin oldal tetején listázódnak, "Mégsem" gombbal
+  visszavonhatók.

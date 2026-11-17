@@ -57,6 +57,17 @@ button:disabled{opacity:.5;cursor:not-allowed}
 .badge{display:inline-block;font-family:var(--mono);font-size:.72rem;padding:2px 8px;border:1px solid var(--line);border-radius:4px;color:var(--muted)}
 #charCount{float:right}
 .spinner{display:inline-block}
+.radio-row{display:flex;gap:18px;margin-top:4px}
+.radio-row label{display:flex;align-items:center;gap:6px;font-size:.85rem;color:var(--text);margin:0}
+.radio-row input{margin:0}
+#scheduleAt{margin-top:10px;max-width:280px}
+#scheduleAt[hidden]{display:none}
+.pending-list{list-style:none;margin:0;padding:0}
+.pending-list li{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-top:1px solid var(--line);font-size:.85rem}
+.pending-list li:first-child{border-top:0}
+.pending-list .meta{color:var(--muted);font-size:.78rem}
+.pending-list .failed{color:var(--err)}
+.pending-list button{padding:5px 12px;font-size:.76rem}
 </style>
 </head>
 <body>
@@ -68,6 +79,11 @@ button:disabled{opacity:.5;cursor:not-allowed}
   <div class="card">
     <h2>Jelenlegi állapot</h2>
     <p id="latestInfo">Betöltés…</p>
+  </div>
+
+  <div class="card" id="pendingCard" style="display:none">
+    <h2>Ütemezett közzétételek</h2>
+    <ul class="pending-list" id="pendingList"></ul>
   </div>
 
   <form id="epForm">
@@ -105,12 +121,19 @@ button:disabled{opacity:.5;cursor:not-allowed}
     </div>
 
     <div class="card">
-      <h2>Leírás</h2>
+      <h2>Leírás (magyar)</h2>
       <label for="shortDescription">Rövid leírás <span id="charCount" class="hint">0 / 160</span></label>
       <textarea id="shortDescription" name="shortDescription" rows="2"></textarea>
-      <p class="hint">Ha üresen hagyod, a teljes leírás elejéből vágja a rendszer.</p>
+      <p class="hint">Ha üresen hagyod, a teljes leírás elejéből vágja a rendszer. (Ez csak a meta leírás/OG-tagekhez kell, az oldalon látható szöveg mindig a teljes leírás.)</p>
       <label for="fullDescription">Teljes leírás <span class="hint">- bekezdéseket üres sorral válaszd el</span></label>
       <textarea id="fullDescription" name="fullDescription" rows="6"></textarea>
+    </div>
+
+    <div class="card">
+      <h2>Leírás (angol)</h2>
+      <p class="hint">Az epizódoldal EN/HU nyelvváltója ezt jeleníti meg angol nézetben - a bekezdéseknek egy-az-egyben meg kell felelniük a magyar verziónak (ugyanannyi bekezdés, ugyanott üres sor). A meta leírás/OG-tagek mindig a magyar rövid leírásból készülnek, ehhez nem kell külön angol verzió.</p>
+      <label for="fullDescriptionEn">Teljes leírás (angol)</label>
+      <textarea id="fullDescriptionEn" name="fullDescriptionEn" rows="6"></textarea>
     </div>
 
     <div class="card">
@@ -133,6 +156,13 @@ button:disabled{opacity:.5;cursor:not-allowed}
     <div id="preview" class="card">
       <h2>Előnézet</h2>
       <div id="previewBody"></div>
+      <label style="margin-top:18px">Közzététel időpontja</label>
+      <div class="radio-row">
+        <label><input type="radio" name="publishTiming" value="now" id="timingNow" checked /> Most</label>
+        <label><input type="radio" name="publishTiming" value="later" id="timingLater" /> Ütemezve</label>
+      </div>
+      <input type="datetime-local" id="scheduleAt" hidden />
+      <p class="hint" id="scheduleHint" hidden>A commit (és így az élesedés) automatikusan megtörténik a megadott időpontban, legfeljebb ~5 perc csúszással - ezután már nincs újabb megerősítés, úgyhogy az Előnézetet még ütemezés előtt alaposan nézd át.</p>
       <div class="actions">
         <button type="button" id="publishBtn" class="primary">Közzététel most</button>
         <button type="button" id="backBtn">Vissza a szerkesztéshez</button>
@@ -235,26 +265,99 @@ button:disabled{opacity:.5;cursor:not-allowed}
     formActions.style.display = 'flex';
   });
 
+  function updateTimingUI() {
+    var later = $('timingLater').checked;
+    $('scheduleAt').hidden = !later;
+    $('scheduleHint').hidden = !later;
+    $('publishBtn').textContent = later ? 'Ütemezés' : 'Közzététel most';
+  }
+  $('timingNow').addEventListener('change', updateTimingUI);
+  $('timingLater').addEventListener('change', updateTimingUI);
+  (function initScheduleDefault() {
+    var d = new Date(Date.now() + 60 * 60 * 1000); // alapértelmezett: 1 óra múlva
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+    $('scheduleAt').value = d.toISOString().slice(0, 16);
+  })();
+
   $('publishBtn').addEventListener('click', function () {
-    $('mode').value = 'publish';
+    var later = $('timingLater').checked;
+    var publishAtIso = null;
+    if (later) {
+      if (!$('scheduleAt').value) { showMsg('Add meg az ütemezett közzététel időpontját.', 'err'); return; }
+      publishAtIso = new Date($('scheduleAt').value).toISOString();
+      if (new Date(publishAtIso).getTime() <= Date.now()) { showMsg('Az ütemezett időpontnak a jövőben kell lennie.', 'err'); return; }
+    }
+    $('mode').value = later ? 'schedule' : 'publish';
     $('publishBtn').disabled = true;
-    $('publishBtn').textContent = 'Közzététel…';
+    $('publishBtn').textContent = later ? 'Ütemezés…' : 'Közzététel…';
     var fd = new FormData(form);
+    if (publishAtIso) fd.set('publishAt', publishAtIso);
     fetch('/api/episode', { method: 'POST', body: fd }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, data: d }; }); })
       .then(function (res) {
         if (!res.ok) {
           $('publishBtn').disabled = false;
-          $('publishBtn').textContent = 'Közzététel most';
+          updateTimingUI();
           showMsg(res.data.error || 'Ismeretlen hiba.', 'err');
           return;
         }
         previewBox.style.display = 'none';
-        showMsg('Közzétéve: ' + res.data.summary.url + ' - a Cloudflare Pages kb. 1 percen belül kiteszi élesben. Commit: ' + res.data.commitUrl, 'ok');
+        if (res.data.scheduled) {
+          showMsg('Ütemezve: ' + res.data.summary.url + ' - a rendszer automatikusan közzéteszi ' + new Date(res.data.publishAt).toLocaleString('hu-HU') + '-kor.', 'ok');
+          loadPending();
+        } else {
+          showMsg('Közzétéve: ' + res.data.summary.url + ' - a Cloudflare kb. 1 percen belül kiteszi élesben. Commit: ' + res.data.commitUrl, 'ok');
+        }
       }).catch(function (e2) {
         $('publishBtn').disabled = false;
-        $('publishBtn').textContent = 'Közzététel most';
+        updateTimingUI();
         showMsg('Hálózati hiba: ' + e2.message, 'err');
       });
+  });
+
+  // ---- Ütemezett közzétételek listája ----
+  var pendingCard = $('pendingCard');
+  var pendingList = $('pendingList');
+
+  function renderPending(items) {
+    if (!items.length) { pendingCard.style.display = 'none'; pendingList.innerHTML = ''; return; }
+    pendingCard.style.display = 'block';
+    pendingList.innerHTML = items.map(function (it) {
+      var when = new Date(it.publishAt).toLocaleString('hu-HU');
+      var statusLine = it.failed
+        ? '<span class="failed">Sikertelen (' + it.attempts + ' próbálkozás) - ' + (it.lastError || '') + '</span>'
+        : (it.attempts > 0 ? '<span class="meta">' + it.attempts + '. újrapróbálkozás folyamatban - ' + (it.lastError || '') + '</span>' : '');
+      return '<li>' +
+        '<span><b>' + it.title + '</b><br><span class="meta">Közzététel: ' + when + '</span>' + (statusLine ? '<br>' + statusLine : '') + '</span>' +
+        '<button type="button" data-cancel-slug="' + it.slug + '">Mégsem</button>' +
+        '</li>';
+    }).join('');
+  }
+
+  function loadPending() {
+    fetch('/api/schedule').then(function (r) { return r.json(); }).then(function (data) {
+      if (data.error) return;
+      renderPending(data.items || []);
+    }).catch(function () {});
+  }
+  loadPending();
+
+  pendingList.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-cancel-slug]');
+    if (!btn) return;
+    var slug = btn.getAttribute('data-cancel-slug');
+    if (!confirm('Biztosan visszavonod ezt az ütemezett közzétételt?')) return;
+    btn.disabled = true;
+    fetch('/api/schedule', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ action: 'cancel', slug: slug }),
+    }).then(function (r) { return r.json(); }).then(function (data) {
+      if (data.error) { showMsg(data.error, 'err'); btn.disabled = false; return; }
+      loadPending();
+    }).catch(function (e2) {
+      showMsg('Hálózati hiba: ' + e2.message, 'err');
+      btn.disabled = false;
+    });
   });
 })();
 </script>

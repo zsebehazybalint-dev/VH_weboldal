@@ -7,6 +7,8 @@
 import { onRequestGet as adminGet } from '../functions/admin.js';
 import { onRequestGet as defaultsGet } from '../functions/api/episode-defaults.js';
 import { onRequestPost as episodePost } from '../functions/api/episode.js';
+import { onRequestGet as scheduleGet, onRequestPost as schedulePost } from '../functions/api/schedule.js';
+import { runDueSchedules } from '../functions/_lib/schedule.js';
 
 export default {
   async fetch(request, env, ctx) {
@@ -21,6 +23,12 @@ export default {
     if (url.pathname === '/api/episode' && request.method === 'POST') {
       return episodePost({ request, env, ctx });
     }
+    if (url.pathname === '/api/schedule' && request.method === 'GET') {
+      return scheduleGet({ request, env, ctx });
+    }
+    if (url.pathname === '/api/schedule' && request.method === 'POST') {
+      return schedulePost({ request, env, ctx });
+    }
 
     // Az assets binding `html_handling = "none"`-ra van állítva (hogy a
     // meglévő canonical/OG/sitemap ".html"-es URL-eket ne írja át/irányítsa
@@ -31,5 +39,12 @@ export default {
     }
 
     return env.ASSETS.fetch(request);
+  },
+
+  // Cron trigger (lásd wrangler.toml [triggers]): 5 percenként megnézi, van-e
+  // lejárt ütemezésű, még ki nem commitolt epizód a SCHEDULE_KV-ban, és ha
+  // igen, elvégzi a tényleges GitHub commit-ot (publish.js + schedule.js).
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(runDueSchedules(env));
   },
 };
