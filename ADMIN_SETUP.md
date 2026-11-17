@@ -55,10 +55,10 @@ Ez a legfontosabb lépés - enélkül BÁRKI, aki ismeri az URL-t, tudna epizód
 közzétenni a nevedben.
 
 1. Cloudflare dashboard → **Zero Trust** → Access → Applications → **Add an application** → **Self-hosted**.
-2. Domain: `vedelmihorizont.hu`, Path: `/admin*` - majd adj hozzá egy **második** alkalmazást ugyanígy `/api/*` path-dal is (vagy egy policy-t, ami mindkettőt lefedi, pl. két külön "Application" bejegyzéssel, mert a path-matching alkalmazásonként egy mintát enged).
+2. Domain: `vedelmihorizont.hu`, Path: `/admin` - a "Public hostnames" alatt adj hozzá **MÉG EGY** path-ot **UGYANEHHEZ az egy alkalmazáshoz**: `vedelmihorizont.hu/api*`. **Fontos**: ez tudatosan EGY alkalmazás két path-tal, NEM két külön "Application" bejegyzés - két külön alkalmazás két külön AUD-ot (token-azonosítót) kapna, és az `/admin`-ra való bejelentkezés akkor NEM lenne érvényes az `/api/*`-ra is, emiatt a form "Failed to fetch" hibával elszállna az `/api/episode-defaults` hívásnál (pontosan ez történt is, amíg ki nem derült és össze nem vontuk a két alkalmazást).
 3. **Policy**: Action = Allow, Include = "Emails" → add meg a saját email címedet (ugyanazt, amit az `ADMIN_ALLOWED_EMAIL`-be írtál).
 4. Identity provider: elég a "One-time PIN" (email-re küldött kód) is, de ha van Google-fiókod társítva a Cloudflare Access-hez, az kényelmesebb.
-5. Mentés után teszteld: nyisd meg `https://vedelmihorizont.hu/admin`-t privát ablakban - egy Cloudflare Access bejelentkező képernyőt kell látnod, csak a megadott emaillel engedi tovább.
+5. Mentés után teszteld: nyisd meg `https://vedelmihorizont.hu/admin`-t privát ablakban - egy Cloudflare Access bejelentkező képernyőt kell látnod, csak a megadott emaillel engedi tovább, és a "Jelenlegi állapot" doboznak hiba nélkül be kell töltenie (ha "Failed to fetch"-et írna ki, az pontosan ezt a két-alkalmazásos hibát jelenti).
 
 ## 4. Első kipróbálás
 
