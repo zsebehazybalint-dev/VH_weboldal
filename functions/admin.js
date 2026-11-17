@@ -161,7 +161,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
         <label><input type="radio" name="publishTiming" value="now" id="timingNow" checked /> Most</label>
         <label><input type="radio" name="publishTiming" value="later" id="timingLater" /> Ütemezve</label>
       </div>
-      <input type="datetime-local" id="scheduleAt" hidden />
+      <input type="datetime-local" id="scheduleAt" step="3600" hidden />
       <p class="hint" id="scheduleHint" hidden>A commit (és így az élesedés) automatikusan megtörténik a megadott időpontban, legfeljebb ~5 perc csúszással - ezután már nincs újabb megerősítés, úgyhogy az Előnézetet még ütemezés előtt alaposan nézd át.</p>
       <div class="actions">
         <button type="button" id="publishBtn" class="primary">Közzététel most</button>
@@ -275,6 +275,7 @@ button:disabled{opacity:.5;cursor:not-allowed}
   $('timingLater').addEventListener('change', updateTimingUI);
   (function initScheduleDefault() {
     var d = new Date(Date.now() + 60 * 60 * 1000); // alapértelmezett: 1 óra múlva
+    d.setMinutes(0, 0, 0); // óra pontosság: kerek órára igazítva
     d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
     $('scheduleAt').value = d.toISOString().slice(0, 16);
   })();
@@ -284,8 +285,10 @@ button:disabled{opacity:.5;cursor:not-allowed}
     var publishAtIso = null;
     if (later) {
       if (!$('scheduleAt').value) { showMsg('Add meg az ütemezett közzététel időpontját.', 'err'); return; }
-      publishAtIso = new Date($('scheduleAt').value).toISOString();
-      if (new Date(publishAtIso).getTime() <= Date.now()) { showMsg('Az ütemezett időpontnak a jövőben kell lennie.', 'err'); return; }
+      var picked = new Date($('scheduleAt').value);
+      picked.setMinutes(0, 0, 0); // óra pontosság kikényszerítése akkor is, ha a böngésző mégis engedne percet
+      publishAtIso = picked.toISOString();
+      if (picked.getTime() <= Date.now()) { showMsg('Az ütemezett időpontnak a jövőben kell lennie.', 'err'); return; }
     }
     $('mode').value = later ? 'schedule' : 'publish';
     $('publishBtn').disabled = true;
