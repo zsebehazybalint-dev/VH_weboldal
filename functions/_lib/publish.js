@@ -93,9 +93,9 @@ export async function parseEpisodeInput(form) {
 
   const speakerMap = parseSpeakerMap(form.get('speakerMap'));
 
-  const coverFile = await readRequiredFile(form, 'coverImage', MAX_IMAGE_BYTES, 'Borítókép');
-  if (!/^image\/jpe?g$/.test(coverFile.type)) {
-    throw new ValidationError(`A borítókép JPEG kell legyen (kapott típus: "${coverFile.type}"). Méretezd/konvertáld webre készre, mint a korábbi epizódoknál.`);
+  const coverImageFile = await readRequiredFile(form, 'coverImage', MAX_IMAGE_BYTES, 'Borítókép');
+  if (!/^image\/jpe?g$/.test(coverImageFile.type)) {
+    throw new ValidationError(`A borítókép JPEG kell legyen (kapott típus: "${coverImageFile.type}"). Méretezd/konvertáld webre készre, mint a korábbi epizódoknál.`);
   }
   const transcriptFile = await readRequiredFile(form, 'transcriptFile', MAX_TRANSCRIPT_BYTES, 'Leirat fájl (*_final.json)');
   const transcriptText = await transcriptFile.text();
@@ -103,14 +103,17 @@ export async function parseEpisodeInput(form) {
 
   const participantsLine = `Résztvevők: ${participants}`;
   const participantsLineEn = `Participants: ${participants}`;
-  const coverFileName = `${episodeNumber}eps.jpg`;
+  // FONTOS: ez a mezőnév (coverFile) KELL hogy pontosan megegyezzen azzal, amit
+  // a template.js render* függvényei (ep.coverFile) várnak - különben a kép
+  // src-je "undefined" lesz, ahogy a 2026-11-19-i hibánál történt.
+  const coverFile = `${episodeNumber}eps.jpg`;
 
-  const imageBytes = new Uint8Array(await coverFile.arrayBuffer());
+  const imageBytes = new Uint8Array(await coverImageFile.arrayBuffer());
   const imageBase64 = uint8ToBase64(imageBytes);
 
   return {
     slug, title, isoDate, durationDisplay, durationIso,
-    youtubeUrl, youtubeId, spotifyUrl, coverFileName, imageBase64,
+    youtubeUrl, youtubeId, spotifyUrl, coverFile, imageBase64,
     metaDescription, descriptionPairs, participantsLine, participantsLineEn,
     turns,
   };
@@ -165,7 +168,7 @@ export async function resolveAgainstCurrentState(env, epInput) {
     durationIso: epInput.durationIso,
     youtubeUrl: epInput.youtubeUrl,
     spotifyUrl: epInput.spotifyUrl,
-    coverFileName: epInput.coverFileName,
+    coverFile: epInput.coverFile,
     turnsCount: epInput.turns.length,
     speakerNames: [...new Set(epInput.turns.map((t) => t.speakerName))],
     replacesLatest: { slug: oldLatest.slug, title: oldLatest.title },
@@ -174,7 +177,7 @@ export async function resolveAgainstCurrentState(env, epInput) {
       'index.html',
       `epizodok/${oldLatest.slug}.html (next link)`,
       'sitemap.xml',
-      `kepek/epizod_kepek/web/${epInput.coverFileName} (új)`,
+      `kepek/epizod_kepek/web/${epInput.coverFile} (új)`,
     ],
   };
 
@@ -189,7 +192,7 @@ export async function commitEpisode(env, epInput, resolved) {
       { path: 'index.html', content: resolved.patchedIndexHtml, encoding: 'utf-8' },
       { path: `epizodok/${resolved.oldLatest.slug}.html`, content: resolved.patchedOldLatestHtml, encoding: 'utf-8' },
       { path: 'sitemap.xml', content: resolved.patchedSitemap, encoding: 'utf-8' },
-      { path: `kepek/epizod_kepek/web/${epInput.coverFileName}`, content: epInput.imageBase64, encoding: 'base64' },
+      { path: `kepek/epizod_kepek/web/${epInput.coverFile}`, content: epInput.imageBase64, encoding: 'base64' },
     ],
     `Epizód hozzáadása: ${epInput.title}`
   );
